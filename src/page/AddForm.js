@@ -19,6 +19,13 @@ export default class AddForm extends Component {
         console.log(this.titleInput);
     }
 
+    handleKeyPress = (e)=>{
+        const keyCode = e.nativeEvent.keyCode;
+        if(keyCode===13){
+            this.handleAdd();
+        }
+    }
+
     handleAdd = () => {
         const newTodo = {
             title: this.state.title,
@@ -36,6 +43,7 @@ export default class AddForm extends Component {
             <div>
                 <input value={this.state.title}
                     onChange={this.handleChange}
+                    onKeyPress={this.handleKeyPress}
                     name="title"
                     ref={node => this.titleInput = node} />
                 <button onClick={this.handleAdd}>+</button>
