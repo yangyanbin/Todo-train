@@ -1,35 +1,25 @@
 import React, {Component} from "react";
 import TodoItem from "./TodoItem"
 import AddForm from "./AddForm"
-import store from "../store"
 import {filterTodo} from "../store/action"
+import {connect} from "react-redux"
+import {bindActionCreators} from "redux"
 
-export default class TodoList extends Component{
-    constructor(){
-        super();
-        this.state = {
-            ...store.getState()
-        };
-    }
+class TodoList extends Component{
 
     handleClick = (e)=>{
         e = e.nativeEvent;
         console.log(this,e.nativeEvent);
-        store.dispatch(filterTodo(!store.getState().isShowAll));
+        this.filterTodo(!this.props.isShowAll);
     }
 
     componentDidMount(){
-        this.todoSub = store.subscribe(()=>{
-            this.setState({...store.getState()})
-        });
+        const {dispatch} = this.props;
+        this.filterTodo = bindActionCreators(filterTodo,dispatch);
     }
 
-    componentWillUnmount(){
-        this.todoSub();
-    }
-    
     render(){
-        const {todoList,isShowAll} = this.state;
+        const {todoList,isShowAll} = this.props;
         const list = todoList.filter(item=>{
             return !item.isFinish||isShowAll
         });
@@ -45,3 +35,18 @@ export default class TodoList extends Component{
         );
     }
 }
+
+const mapStateToProps = state =>{
+    return {
+        todoList:state.todoList,
+        isShowAll:state.isShowAll
+    }
+}
+
+/* const mapDispatchToProps = dispatch=>{
+    return {
+        filterTodo:isAll=>dispatch(filterTodo(isAll))
+    }
+} */
+
+export default connect(mapStateToProps)(TodoList);
