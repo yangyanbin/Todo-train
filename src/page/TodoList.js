@@ -15,7 +15,17 @@ export default class TodoList extends Component{
     handleClick = (e)=>{
         e = e.nativeEvent;
         console.log(this,e.nativeEvent);
-        store.dispatch(filterTodo(!store.getState().isShowAll));
+        store.dispatch(this.filterTodoing(!store.getState().isShowAll));
+    }
+
+    filterTodoing(bl){
+        return dispatch=>{
+            return new Promise(resolve=>{
+                setTimeout(()=>{
+                    resolve(filterTodo(bl));
+                },2000);
+            }).then((res)=>dispatch(res)); 
+        }
     }
 
     componentDidMount(){
