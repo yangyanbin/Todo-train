@@ -6,7 +6,7 @@
     },
     {
         "title":"todo 2",
-        "isFinish":false,
+        "isFinish":true,
         "desc":"todo 2 desc"
     }
 ]

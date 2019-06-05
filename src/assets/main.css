@@ -27,6 +27,7 @@ html,body{
 }
 .finished{
     text-decoration: line-through;
+    color:#999;
 }
 .about{
     margin:0 20px;
