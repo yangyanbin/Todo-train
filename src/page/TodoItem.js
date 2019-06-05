@@ -1,17 +1,15 @@
 import React from "react";
-import store from "../store";
-import {deleteTodo,updateTodo} from "../store/action"
 
 export default function TodoItem(props) {
-    const { index, todo } = props;
+    const { index, todo, deleteTheTodo, updateStatus } = props;
     return (
         <li>
             <span style={{ marginRight: '20px' }}
                 className={todo.isFinish ? "finished" : ""}
-                onClick={() => { store.dispatch(updateTodo(index)) }}>
+                onClick={() => { updateStatus(index) }}>
                 {todo.title}
             </span>
-            <button onClick={() => { store.dispatch(deleteTodo(index)) }}>X</button>
+            <button onClick={() => { deleteTheTodo(index) }}>X</button>
         </li>
     );
 }

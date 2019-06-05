@@ -1,44 +1,48 @@
 import React, {Component} from "react";
+import todoList from "./todo.json"
 import TodoItem from "./TodoItem"
 import AddForm from "./AddForm"
-import store from "../store"
-import {filterTodo} from "../store/action"
 
 export default class TodoList extends Component{
     constructor(){
         super();
         this.state = {
-            ...store.getState()
+            list:todoList
         };
     }
 
     handleClick = (e)=>{
         e = e.nativeEvent;
-        console.log(this,e.nativeEvent);
-        store.dispatch(filterTodo(!store.getState().isShowAll));
+        if(e.target.tagName === "UL"){
+            console.log(this,e.nativeEvent);
+        }
     }
 
-    componentDidMount(){
-        this.todoSub = store.subscribe(()=>{
-            this.setState({...store.getState()})
-        });
+    deleteItem = (index)=>{
+        const {list} = this.state;
+        const newList = list.slice(0,index).concat(list.slice(index+1));
+        this.setState({list:newList});
     }
 
-    componentWillUnmount(){
-        this.todoSub();
+    addTodo = (todo)=>{
+        const {list} = this.state;
+        const newList = list.concat(todo);
+        this.setState({list:newList});
+    }
+
+    updateStatus = (index)=>{
+        const {list} = this.state;
+        const newList = list.slice(0,index).concat({...list[index],isFinish:!list[index].isFinish},list.slice(index+1));
+        this.setState({list:newList});
     }
     
     render(){
-        const {todoList,isShowAll} = this.state;
-        const list = todoList.filter(item=>{
-            return !item.isFinish||isShowAll
-        });
+        const {list} = this.state;
         return (
             <section className="todo-list">
-                <AddForm />
-                <button onClick={this.handleClick}>Filter</button>
-                <ul>
-                    {list.map((item,index)=><TodoItem key={index} index={index} todo={item} />)}
+                <AddForm addTodo={this.addTodo} />
+                <ul onClick={this.handleClick}>
+                    {list.map((item,index)=><TodoItem key={index} index={index} todo={item} updateStatus={this.updateStatus} deleteTheTodo={this.deleteItem} />)}
                 </ul>
             </section>
             
