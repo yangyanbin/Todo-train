@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import TodoItem from "./TodoItem"
 import AddForm from "./AddForm"
-import {filterTodo} from "../store/action"
+import * as reducer from "../store/action"
 import {connect} from "react-redux"
 import {bindActionCreators} from "redux"
 
@@ -10,12 +10,12 @@ class TodoList extends Component{
     handleClick = (e)=>{
         e = e.nativeEvent;
         console.log(this,e.nativeEvent);
-        this.filterTodo(!this.props.isShowAll);
+        this.props.dispatch(reducer.filterTodo(!this.props.isShowAll));
     }
 
-    componentDidMount(){
+    componentWillMount(){
         const {dispatch} = this.props;
-        this.filterTodo = bindActionCreators(filterTodo,dispatch);
+        this.bindActionCreators = bindActionCreators({...reducer},dispatch);
     }
 
     render(){
@@ -28,7 +28,7 @@ class TodoList extends Component{
                 <AddForm />
                 <button onClick={this.handleClick}>Filter</button>
                 <ul>
-                    {list.map((item,index)=><TodoItem key={index} index={index} todo={item} />)}
+                    {list.map((item,index)=><TodoItem {...this.bindActionCreators} key={index} index={index} todo={item} />)}
                 </ul>
             </section>
             
