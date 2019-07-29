@@ -1,23 +1,11 @@
-import {createStore,applyMiddleware} from "redux";
-import logger from "redux-logger"
-const rootReducer = (state,action)=>{
-    let newList;
-    switch(action.type){
-        case "ADD":
-            newList = state.todoList.concat(action.payload)
-            return {
-                ...state,
-                todoList:newList
-            };
-        default:
-            return state;
-    }
+import {observable, action, autorun} from "mobx";
+
+class Store{
+    todoList = observable.array(["todo 1","todo 2"])
+    add = action((newItem)=>{
+        this.todoList.push(newItem);
+    });
+    subscribe = callback=>autorun(callback);
 }
 
-const defaultState = {
-    todoList:["todo 1","todo 2"],
-    goods:[]
-}
-const store = createStore(rootReducer,defaultState,applyMiddleware(logger));
-
-export default store;
+export default new Store();
