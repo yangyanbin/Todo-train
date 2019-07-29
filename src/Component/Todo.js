@@ -1,21 +1,31 @@
 import React,{Component} from "react";
 import Add from "./Add"
-import {connect} from "react-redux";
-
+import store from "../store/store"
 
 class Todo extends Component{
+	constructor(){
+		super();
+		this.state = {
+			todoList:store.getState().todoList
+		}
+	}
 	componentDidMount(){
-		
+		this.removeSub = store.subscribe(()=>{
+			this.setState({todoList:store.getState().todoList});
+		});
 	}
 	handleClick(index){
 		let newList = this.state.list.slice(0,index).concat(this.state.list.slice(index+1))
 		this.setState({list:newList});
 	}
 	handleAdd(newItem){
-		this.props.add(newItem);
+		store.dispatch({type:"ADD",payload:newItem});
+	}
+	componentWillUnmount(){
+		this.removeSub();
 	}
 	render(){
-		const {todoList} = this.props;
+		const {todoList} = this.state;
 		return (
 			<>
 				<Add handleAdd={this.handleAdd.bind(this)} />
@@ -26,17 +36,5 @@ class Todo extends Component{
 		)
 	}
 }
-const mapStateToProps=(state)=>{
-	return {
-		todoList:state.todoList
-	}
-}
-const mapDispatchToProps=(dispatch)=>{
-	return {
-		add:(newItem)=>{
 
-			return dispatch({type:"ADD",payload:newItem})
-		}
-	} 
-}
-export default connect(mapStateToProps,mapDispatchToProps)(Todo);
+export default Todo;
