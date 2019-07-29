@@ -1,24 +1,10 @@
 import React,{Component} from "react";
 import Add from "./Add"
 import store from "../store/store"
-import {autorun} from "mobx"
+import {observer} from "mobx-react"
 
 class Todo extends Component{
-	constructor(){
-		super();
-		this.state = {
-			todoList:Array.from(store.todoList)
-		}
-	}
-	componentDidMount(){
-		window.store = store;
-		/* this.removeSub = store.subscribe(()=>{
-			this.setState({todoList:Array.from(store.todoList)});
-		}); */
-		this.removeSub = autorun(()=>{
-			this.setState({todoList:Array.from(store.todoList)});
-		});
-	}
+	
 	handleClick(index){
 		let newList = this.state.list.slice(0,index).concat(this.state.list.slice(index+1))
 		this.setState({list:newList});
@@ -26,11 +12,9 @@ class Todo extends Component{
 	handleAdd(newItem){
 		store.add(newItem);
 	}
-	componentWillUnmount(){
-		this.removeSub();
-	}
+	
 	render(){
-		const {todoList} = this.state;
+		const todoList = Array.from(store.todoList);
 		return (
 			<>
 				<Add handleAdd={this.handleAdd.bind(this)} />
@@ -42,4 +26,4 @@ class Todo extends Component{
 	}
 }
 
-export default Todo;
+export default observer(Todo);
