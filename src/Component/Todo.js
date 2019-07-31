@@ -1,7 +1,6 @@
 import React,{Component} from "react";
 import Add from "./Add"
-import store from "../store/store"
-import {observer} from "mobx-react"
+import {observer,inject} from "mobx-react"
 
 class Todo extends Component{
 	
@@ -10,11 +9,11 @@ class Todo extends Component{
 		this.setState({list:newList});
 	}
 	handleAdd(newItem){
-		store.add(newItem);
+		this.props.store.add(newItem);
 	}
 	
 	render(){
-		const todoList = Array.from(store.todoList);
+		const todoList = Array.from(this.props.store.todoList);
 		return (
 			<>
 				<Add handleAdd={this.handleAdd.bind(this)} />
@@ -26,4 +25,4 @@ class Todo extends Component{
 	}
 }
 
-export default observer(Todo);
+export default inject("store")(observer(Todo));
