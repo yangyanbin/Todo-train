@@ -25,4 +25,9 @@ class Todo extends Component{
 	}
 }
 
-export default inject("store")(observer(Todo));
+export default inject((rootStore)=>{
+	console.log(rootStore);
+	return {
+		store:rootStore.todoStore
+	}
+})(observer(Todo));

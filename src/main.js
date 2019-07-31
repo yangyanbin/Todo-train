@@ -7,7 +7,7 @@ import {Provider} from "mobx-react"
 import store from "./store/store"
 
 ReactDom.render(
-		<Provider store={store}>
+		<Provider todoStore={store}>
 			<div>
 				<Header />
 				<Todo />
