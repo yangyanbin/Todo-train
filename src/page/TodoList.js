@@ -46,8 +46,8 @@ export default class TodoList extends Component{
         return (
             <section className="todo-list">
                 <AddForm />
-                <button onClick={this.handleClick}>Filter</button>
-                <ul>
+                <button className='btn btn-primary' onClick={this.handleClick}>Filter</button>
+                <ul style={{marginTop:15}} className="list-group">
                     {list.map((item,index)=><TodoItem key={index} index={index} todo={item} />)}
                 </ul>
             </section>
