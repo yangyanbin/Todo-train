@@ -40,13 +40,16 @@ export default class AddForm extends Component {
 
     render() {
         return (
-            <div>
-                <input value={this.state.title}
+            <div className="input-group mb-3">
+                <input className='form-control'
+                    value={this.state.title}
                     onChange={this.handleChange}
                     onKeyPress={this.handleKeyPress}
                     name="title"
                     ref={node => this.titleInput = node} />
-                <button onClick={this.handleAdd}>+</button>
+                    <div className="input-group-append">
+                        <button className="btn btn-outline-secondary" onClick={this.handleAdd}>+</button>
+                    </div>
             </div>
         );
     }

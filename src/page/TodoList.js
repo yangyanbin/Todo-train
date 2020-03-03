@@ -41,7 +41,7 @@ export default class TodoList extends Component{
         return (
             <section className="todo-list">
                 <AddForm addTodo={this.addTodo} />
-                <ul onClick={this.handleClick}>
+                <ul style={{marginTop:15}} className="list-group" onClick={this.handleClick}>
                     {list.map((item,index)=><TodoItem key={index} index={index} todo={item} updateStatus={this.updateStatus} deleteTheTodo={this.deleteItem} />)}
                 </ul>
             </section>

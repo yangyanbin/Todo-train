@@ -31,3 +31,6 @@ html,body{
 .about{
     margin:0 20px;
 }
+.point{
+    cursor: pointer;
+}
