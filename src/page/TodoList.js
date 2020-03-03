@@ -1,34 +1,51 @@
 import React, {Component} from "react";
 import TodoItem from "./TodoItem"
 import AddForm from "./AddForm"
-import * as reducer from "../store/action"
-import {connect} from "react-redux"
-import {bindActionCreators} from "redux"
+import {connect} from "dva";
 
 class TodoList extends Component{
 
     handleClick = (e)=>{
         e = e.nativeEvent;
         console.log(this,e.nativeEvent);
-        this.props.dispatch(reducer.filterTodo(!this.props.isShowAll));
+        this.props.dispatch({
+            type:'TODO/filterTodo',
+            payload:!this.props.isShowAll
+        });
     }
 
-    componentWillMount(){
-        const {dispatch} = this.props;
-        this.bindActionCreators = bindActionCreators({...reducer},dispatch);
+    addTodo = (newTodo)=>{
+        this.props.dispatch({
+            type:'TODO/addTodo',
+            payload:newTodo
+        });
+    }
+
+    updateTodo = (index)=>{
+        this.props.dispatch({
+            type:'TODO/updateTodo',
+            payload:index
+        });
+    }
+
+    deleteTodo = (index)=>{
+        this.props.dispatch({
+            type:'TODO/deleteTodo',
+            payload:index
+        });
     }
 
     render(){
-        const {todoList,isShowAll} = this.props;
+        const {todoList,isShowAll,loading} = this.props;
         const list = todoList.filter(item=>{
             return !item.isFinish||isShowAll
         });
         return (
             <section className="todo-list">
-                <AddForm />
-                <button onClick={this.handleClick}>Filter</button>
+                <AddForm addTodo={this.addTodo}/>
+                <button onClick={this.handleClick}>{loading?'Loading':'Filter'}</button>
                 <ul>
-                    {list.map((item,index)=><TodoItem {...this.bindActionCreators} key={index} index={index} todo={item} />)}
+                    {list.map((item,index)=><TodoItem key={index} updateTodo={this.updateTodo} deleteTodo={this.deleteTodo} index={index} todo={item} />)}
                 </ul>
             </section>
             
@@ -38,15 +55,10 @@ class TodoList extends Component{
 
 const mapStateToProps = state =>{
     return {
-        todoList:state.todoList,
-        isShowAll:state.isShowAll
+        todoList:state.TODO.todoList,
+        isShowAll:state.TODO.isShowAll,
+        loading:!!state.loading.effects['TODO/filterTodo']
     }
 }
-
-/* const mapDispatchToProps = dispatch=>{
-    return {
-        filterTodo:isAll=>dispatch(filterTodo(isAll))
-    }
-} */
 
 export default connect(mapStateToProps)(TodoList);

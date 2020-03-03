@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import store from "../store";
-import {addTodo} from "../store/action"
 
 export default class AddForm extends Component {
     constructor() {
@@ -22,13 +20,14 @@ export default class AddForm extends Component {
     }
 
     handleAdd = () => {
+        const {addTodo} = this.props;
         const newTodo = {
             title: this.state.title,
             isFinish: false,
             desc: this.state.title
         }
         if (this.state.title) {
-            store.dispatch(addTodo(newTodo));
+            addTodo(newTodo);
             this.setState({ title: '' });
         }
     }

@@ -1,6 +1,6 @@
 import React,{Component} from "react";
-import {Link} from "react-router-dom";
-import { connect } from "react-redux";
+import {Link} from "dva/router";
+import { connect } from "dva";
 
 class HeaderLink extends Component{
     render(){
@@ -15,7 +15,7 @@ class HeaderLink extends Component{
 }
 const mapStateToProps = state =>{
     return {
-        listLength:state.todoList.length
+        listLength:state.TODO.todoList.length
     }
 }
 
