@@ -5,11 +5,11 @@ import { connect } from "dva";
 class HeaderLink extends Component{
     render(){
         return (<header>
-            <h1>React quick start!!</h1>
-			<ul>
-				<li><Link to="/">Todo list({this.props.listLength})</Link></li>
-				<li><Link to="/about">About</Link></li>
-			</ul>
+            {/* <h1>React quick start!!</h1> */}
+			<nav className='nav'>
+				<Link className='nav-link' to="/">Todo list <span className="badge badge-info">{this.props.listLength}</span></Link>
+				<Link className='nav-link' to="/about">About</Link>
+			</nav>
         </header>);
     }
 }
