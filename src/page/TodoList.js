@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import TodoItem from "./TodoItem"
-import AddForm from "./AddForm"
+import AddForm from "./AddFormHooks"
 import {connect} from "dva";
 
 class TodoList extends Component{
