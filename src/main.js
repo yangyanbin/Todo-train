@@ -7,15 +7,17 @@ import {BrowserRouter as Router,Route} from "react-router-dom";
 import TodoList from "./page/TodoList";
 import About from "./page/About";
 import HeaderLink from "./page/Header";
-
 import appTitle,{isEmpty as empty,isString} from "./util/util";
+import App from "./hooks/App";
 
 ReactDom.render(
-	<Router>
-		<HeaderLink empty={empty} appTitle={appTitle} />
-		<Route exact path="/" component={TodoList}></Route>
-		<Route path="/about" component={About}></Route>
-	</Router>,
+	<App>
+		<Router>
+			<HeaderLink empty={empty} appTitle={appTitle} />
+			<Route exact path="/" component={TodoList}></Route>
+			<Route path="/about" component={About}></Route>
+		</Router>
+	</App>,
 	document.querySelector('#root')
 );
 document.title = isString("haha")?"Let's Rock!":"haha";

@@ -1,5 +1,5 @@
 import list from "./todo.json";
-function todoList(state=list,action){
+export function todoListReducer(state=list,action){
     switch(action.type){
         case "TODO_ADD":
             return [].concat(state,action.payload);
@@ -21,4 +21,4 @@ function isShowAll(state=true,action){
     }
 }
 
-export {todoList,isShowAll};
+export {isShowAll,list as todoList};

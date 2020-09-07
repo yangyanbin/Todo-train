@@ -54,6 +54,7 @@ module.exports = {
         filename: "[name]-[hash].css"
     })
   ],
+  devtool:'source-map',
   devServer:{
         historyApiFallback: true,
         inline: true,

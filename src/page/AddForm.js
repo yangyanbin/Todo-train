@@ -1,50 +1,31 @@
-import React, { Component } from "react";
-import store from "../store";
-import {addTodo} from "../store/action"
+import React,{useContext} from "react";
+import useInputState from '../hooks/useInputState';
+import {addTodo} from "../store/action";
+import AppContext from "../hooks/AppContext";
 
-export default class AddForm extends Component {
-    constructor() {
-        super();
-        this.state = {
-            title: ''
-        };
-    }
-
-    handleChange = (e) => {
-        const target = e.target;
-        this.setState({
-            [target.name]: target.value
-        });
-    }
-
-    componentDidMount() {
-        console.log(this.titleInput);
-    }
-
-    handleAdd = () => {
+export default function AddForm (){
+    const [ title, handleChange, reset ] = useInputState("");
+    const {dispatch} = useContext(AppContext);
+    function handleAdd (){
         const newTodo = {
-            title: this.state.title,
+            title: title,
             isFinish: false,
-            desc: this.state.title
+            desc: title
         }
-        if (this.state.title) {
-            store.dispatch(addTodo(newTodo));
-            this.setState({ title: '' });
+        if (title) {
+            dispatch(addTodo(newTodo));
+            reset();
         }
     }
-
-    render() {
-        return (
-            <div className="input-group mb-3">
-                <input className='form-control'
-                    value={this.state.title}
-                    onChange={this.handleChange}
-                    name="title"
-                    ref={node => this.titleInput = node} />
-                    <div className="input-group-append">
-                        <button className="btn btn-outline-secondary" onClick={this.handleAdd}>+</button>
-                    </div>
-            </div>
-        );
-    }
+    return (
+        <div className="input-group mb-3">
+            <input className='form-control'
+                value={title}
+                onChange={handleChange}
+                name="title" />
+                <div className="input-group-append">
+                    <button className="btn btn-outline-secondary" onClick={handleAdd}>+</button>
+                </div>
+        </div>
+    );
 }

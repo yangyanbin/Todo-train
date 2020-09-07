@@ -1,57 +1,25 @@
-import React, {Component} from "react";
-import TodoItem from "./TodoItem"
-import AddForm from "./AddForm"
-import store from "../store"
-import {filterTodo} from "../store/action"
+import React, {useState,useContext} from "react";
+import TodoItem from "./TodoItem";
+import AddForm from "./AddForm";
+import AppContext from "../hooks/AppContext";
 
-export default class TodoList extends Component{
-    constructor(){
-        super();
-        this.state = {
-            ...store.getState()
-        };
+export default function TodoList (){
+    const {todos} = useContext(AppContext);
+    const [isShowAll,setIsShowAll] = useState(true);
+    const list = todos.filter(item=>{
+        return !item.isFinish||isShowAll
+    });
+    function handleClick(){
+        setIsShowAll(!isShowAll)
     }
-
-    handleClick = (e)=>{
-        e = e.nativeEvent;
-        console.log(this,e.nativeEvent);
-        store.dispatch(this.filterTodoing(!store.getState().isShowAll));
-    }
-
-    filterTodoing(bl){
-        return dispatch=>{
-            return new Promise(resolve=>{
-                setTimeout(()=>{
-                    resolve(filterTodo(bl));
-                },2000);
-            }).then((res)=>dispatch(res)); 
-        }
-    }
-
-    componentDidMount(){
-        this.todoSub = store.subscribe(()=>{
-            this.setState({...store.getState()})
-        });
-    }
-
-    componentWillUnmount(){
-        this.todoSub();
-    }
-    
-    render(){
-        const {todoList,isShowAll} = this.state;
-        const list = todoList.filter(item=>{
-            return !item.isFinish||isShowAll
-        });
-        return (
-            <section className="todo-list">
-                <AddForm />
-                <button className='btn btn-primary' onClick={this.handleClick}>Filter</button>
-                <ul style={{marginTop:15}} className="list-group">
-                    {list.map((item,index)=><TodoItem key={index} index={index} todo={item} />)}
-                </ul>
-            </section>
-            
-        );
-    }
+    return (
+        <section className="todo-list">
+            <AddForm />
+            <button className='btn btn-primary' onClick={handleClick}>Filter</button>
+            <ul style={{marginTop:15}} className="list-group">
+                {list.map((item,index)=><TodoItem key={index} index={index} todo={item} />)}
+            </ul>
+        </section>
+        
+    );
 }
