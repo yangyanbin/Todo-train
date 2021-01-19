@@ -1,21 +1,22 @@
 import React, {Component} from "react";
 import TodoItem from "./TodoItem"
 import AddForm from "./AddForm"
-import store from "../store"
+// import store from "../store"
 import {filterTodo} from "../store/action"
+import {connect} from '../store/connect'
 
-export default class TodoList extends Component{
-    constructor(){
+class TodoList extends Component{
+    /*constructor(){
         super();
         this.state = {
             ...store.getState()
         };
-    }
+    }*/
 
     handleClick = (e)=>{
         e = e.nativeEvent;
         console.log(this,e.nativeEvent);
-        store.dispatch(this.filterTodoing(!store.getState().isShowAll));
+        this.props.dispatch(this.filterTodoing(!this.props.isShowAll));
     }
 
     filterTodoing(bl){
@@ -28,7 +29,7 @@ export default class TodoList extends Component{
         }
     }
 
-    componentDidMount(){
+    /*componentDidMount(){
         this.todoSub = store.subscribe(()=>{
             this.setState({...store.getState()})
         });
@@ -36,10 +37,10 @@ export default class TodoList extends Component{
 
     componentWillUnmount(){
         this.todoSub();
-    }
+    }*/
     
     render(){
-        const {todoList,isShowAll} = this.state;
+        const {todoList,isShowAll} = this.props;
         const list = todoList.filter(item=>{
             return !item.isFinish||isShowAll
         });
@@ -55,3 +56,9 @@ export default class TodoList extends Component{
         );
     }
 }
+
+export default connect((state)=>{
+    return {
+        ...state
+    };
+})(TodoList);
