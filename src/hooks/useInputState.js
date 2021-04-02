@@ -1,7 +1,7 @@
 import {useState,useCallback} from 'react';
 
 export default function useInputState(defaultValue){
-	console.log('input');
+	console.log('input hook');
 	const [value,setValue] = useState(defaultValue);
 	function onChange(e){
 		setValue(e.target.value);

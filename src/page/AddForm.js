@@ -3,7 +3,8 @@ import useInputState from '../hooks/useInputState';
 import {addTodo} from "../store/action";
 import AppContext from "../hooks/AppContext";
 
-export default function AddForm (){
+function AddForm (){
+    console.log('AddForm');
     const [ title, handleChange, reset ] = useInputState("");
     const {dispatch} = useContext(AppContext);
     function handleAdd (){
@@ -29,3 +30,5 @@ export default function AddForm (){
         </div>
     );
 }
+
+export default AddForm;
