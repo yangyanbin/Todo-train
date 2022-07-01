@@ -1,4 +1,4 @@
-import "./assets/main.css";
+/*import "./assets/main.css";
 import React from "react";
 import ReactDom from "react-dom";
 // import {HashRouter as Router,Route,Link} from "react-router-dom";
@@ -20,4 +20,18 @@ ReactDom.render(
 	</Router>,
 	document.querySelector('#root')
 );
-document.title = isString("haha")?"Let's Rock!":"haha";
+document.title = isString("haha")?"Let's Rock!":"haha";*/
+
+import React from './util/react';
+import ReactDom from './util/react-dom';
+
+function SelfFC(props){
+	return <h2>{props.name}</h2>
+}
+
+const jsx = (<div className='div'>
+	<h1 className='h1'>Test mini-react</h1>
+	<SelfFC name='yyb' />
+</div>);
+
+ReactDom.render(jsx,document.querySelector('#root'));
